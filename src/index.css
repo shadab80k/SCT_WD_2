@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 18% 10%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 174 72% 50%;
+    --primary-foreground: 220 20% 7%;
+
+    --secondary: 220 15% 16%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 220 15% 14%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 174 72% 50%;
+    --accent-foreground: 220 20% 7%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 145 65% 45%;
+    --success-foreground: 220 20% 7%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 20% 7%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 174 72% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom stopwatch tokens */
+    --time-glow: 174 72% 50%;
+    --button-glow: 0 0 30px hsl(174 72% 50% / 0.4);
+    --button-glow-destructive: 0 0 30px hsl(0 72% 55% / 0.4);
+    --glass-bg: hsl(220 18% 12% / 0.7);
+    --glass-border: hsl(220 15% 25% / 0.5);
+
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 174 72% 50%;
+    --sidebar-primary-foreground: 220 20% 7%;
+    --sidebar-accent: 220 15% 16%;
+    --sidebar-accent-foreground: 210 20% 85%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 174 72% 50%;
+  }
+
+  .dark {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 95%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .time-display {
+    font-family: 'JetBrains Mono', monospace;
+    @apply text-foreground tracking-tight;
+    text-shadow: 0 0 60px hsl(var(--time-glow) / 0.3),
+                 0 0 100px hsl(var(--time-glow) / 0.15);
+  }
+
+  .time-display-running {
+    text-shadow: 0 0 60px hsl(var(--time-glow) / 0.5),
+                 0 0 100px hsl(var(--time-glow) / 0.3),
+                 0 0 140px hsl(var(--time-glow) / 0.15);
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    @apply rounded-2xl;
+  }
+
+  .stopwatch-button {
+    @apply relative overflow-hidden transition-all duration-300 ease-out;
+    @apply rounded-full font-semibold text-lg;
+    @apply disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100;
+  }
+
+  .stopwatch-button:not(:disabled):hover {
+    @apply scale-105;
+  }
+
+  .stopwatch-button:not(:disabled):active {
+    @apply scale-95;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground;
+    box-shadow: var(--button-glow);
+  }
+
+  .btn-primary:not(:disabled):hover {
+    box-shadow: 0 0 40px hsl(174 72% 50% / 0.6);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground border border-border;
+  }
+
+  .btn-secondary:not(:disabled):hover {
+    @apply bg-muted;
+  }
+
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground;
+    box-shadow: var(--button-glow-destructive);
+  }
+
+  .btn-destructive:not(:disabled):hover {
+    box-shadow: 0 0 40px hsl(0 72% 55% / 0.6);
+  }
+
+  .lap-item {
+    @apply transition-all duration-300 ease-out;
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .lap-fastest {
+    @apply border-l-4 border-l-success bg-success/10;
+  }
+
+  .lap-slowest {
+    @apply border-l-4 border-l-destructive bg-destructive/10;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .running-indicator {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+}
+
+/* Custom scrollbar for lap list */
+.lap-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lap-list::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+.lap-list::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+.lap-list::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
